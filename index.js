@@ -1,16 +1,18 @@
 const connecToMongo = require('./db')
 
 const express = require('express')
+const cors = require("cors")
 const Dashboard_Data = require('./model')
 const app = express();
-const port = 8000;
+const port = process.env.port || 8000;
 app.use(express.json())
+app.use(cors())
 connecToMongo();
 
 app.get("/", async(req, res) => {
     try {
         const data = await Dashboard_Data.find();
-        res.status(200).json({data:data})
+        res.status(200).send(data)
     } catch (error) {
             console.log(error);
     }
